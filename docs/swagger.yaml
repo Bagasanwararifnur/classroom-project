@@ -1,0 +1,247 @@
+basePath: /
+definitions:
+  models.Comment:
+    properties:
+      content:
+        type: string
+      id:
+        type: integer
+      thread_id:
+        type: integer
+      user_id:
+        type: integer
+    type: object
+  models.Thread:
+    properties:
+      content:
+        type: string
+      id:
+        type: integer
+      title:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  models.User:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      username:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is the API documentation for the app
+  title: My API
+  version: "1.0"
+paths:
+  /comment-create:
+    post:
+      consumes:
+      - application/json
+      description: Create a Comment
+      parameters:
+      - description: Comment Detail
+        in: body
+        name: comment
+        required: true
+        schema:
+          $ref: '#/definitions/models.Comment'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Comment'
+      summary: Create a new comment
+      tags:
+      - comments
+  /details-user:
+    get:
+      consumes:
+      - application/json
+      description: Get Information of User
+      parameters:
+      - description: User ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Get User By ID
+      tags:
+      - users
+  /get-thread:
+    get:
+      consumes:
+      - application/json
+      description: Get Information of Thread
+      parameters:
+      - description: Thread ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Thread'
+      summary: Get Thread By ID
+      tags:
+      - threads
+  /thread-create:
+    post:
+      consumes:
+      - application/json
+      description: Create a new thread with the provided data
+      parameters:
+      - description: User information
+        in: body
+        name: thread
+        required: true
+        schema:
+          $ref: '#/definitions/models.Thread'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Thread'
+      summary: Create a new thread
+      tags:
+      - threads
+  /thread-get:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of threads
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            items:
+              $ref: '#/definitions/models.Thread'
+            type: array
+      summary: Get all threads
+      tags:
+      - threads
+  /thread-page:
+    get:
+      consumes:
+      - application/json
+      description: Get Thread Page
+      parameters:
+      - description: Thread ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: Object
+      summary: Get Thread with All Comment
+      tags:
+      - threads
+  /user-comment:
+    get:
+      consumes:
+      - application/json
+      description: User All Comments
+      parameters:
+      - description: User ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Get all comments
+      tags:
+      - users
+  /user-thread:
+    get:
+      consumes:
+      - application/json
+      description: User All Thread
+      parameters:
+      - description: User ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Get All Thread Posted By User
+      tags:
+      - users
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+      summary: Get all users
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: Create a new user with the provided data
+      parameters:
+      - description: User information
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Create a new user
+      tags:
+      - users
+schemes:
+- http
+swagger: "2.0"

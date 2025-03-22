@@ -1,0 +1,65 @@
+package main
+
+import (
+	"fmt"
+	"reflect"
+)
+
+type Thread struct {
+	ID      int
+	Title   string
+	Content string
+	UserID  int
+	Comment string
+}
+
+type ThreadResponse struct {
+	ID      int
+	Title   string
+	Content string
+	UserID  int
+}
+
+func MapToResponse(src interface{}, dest interface{}) error {
+
+	var valueA = reflect.ValueOf(src)
+	var valueB = reflect.ValueOf(dest)
+
+	if valueB.Kind() == reflect.Ptr {
+		fmt.Println("Masuk")
+		valueB = valueB.Elem()
+	}
+
+	if valueA.Kind() == reflect.Ptr {
+		fmt.Println("Masuk")
+		valueA = valueA.Elem()
+	}
+
+	for i := 0; i < valueB.NumField(); i++ {
+		fieldName := valueA.Type().Field(i).Name
+		destField := valueB.FieldByName(fieldName)
+		if destField.IsValid() && destField.CanSet() {
+			destField.Set(valueA.Field(i)) // Set nilai dari src ke dest
+		}
+	}
+
+	return nil
+}
+
+func main() {
+	fmt.Println("Hello, World!")
+
+	thread := Thread{
+		ID:      20,
+		Title:   "Abunai",
+		Content: "Sangat Berbahaya",
+		UserID:  1,
+		Comment: "Anjay",
+	}
+
+	var response ThreadResponse
+
+	MapToResponse(thread, &response)
+
+	fmt.Printf("%#v", response)
+}
