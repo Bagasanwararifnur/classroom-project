@@ -1,5 +1,16 @@
 basePath: /
 definitions:
+  models.Class:
+    properties:
+      grade:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+      topic:
+        type: string
+    type: object
   models.Comment:
     properties:
       content:
@@ -8,6 +19,17 @@ definitions:
         type: integer
       thread_id:
         type: integer
+      user_id:
+        type: integer
+    type: object
+  models.Status:
+    properties:
+      class_id:
+        type: integer
+      id:
+        type: integer
+      status:
+        type: boolean
       user_id:
         type: integer
     type: object
@@ -60,6 +82,50 @@ paths:
       summary: Create a new comment
       tags:
       - comments
+  /create-class:
+    post:
+      consumes:
+      - application/json
+      description: Create a class user with the provided data
+      parameters:
+      - description: Class Data
+        in: body
+        name: class
+        required: true
+        schema:
+          $ref: '#/definitions/models.Class'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Class'
+      summary: Create a new class
+      tags:
+      - class
+  /create-status:
+    post:
+      consumes:
+      - application/json
+      description: Create a new status with the provided data
+      parameters:
+      - description: Status Data
+        in: body
+        name: status
+        required: true
+        schema:
+          $ref: '#/definitions/models.Status'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Status'
+      summary: Create a new status
+      tags:
+      - status
   /details-user:
     get:
       consumes:
@@ -81,6 +147,44 @@ paths:
       summary: Get User By ID
       tags:
       - users
+  /get-all-classes:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of classes
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Class'
+            type: array
+      summary: Get all classes
+      tags:
+      - class
+  /get-classes:
+    get:
+      consumes:
+      - application/json
+      description: Get a specific class by ID
+      parameters:
+      - description: Class ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Class'
+      summary: Get class by ID
+      tags:
+      - class
   /get-thread:
     get:
       consumes:
@@ -162,6 +266,29 @@ paths:
       summary: Get Thread with All Comment
       tags:
       - threads
+  /user-classes:
+    get:
+      consumes:
+      - application/json
+      description: Get Status for all user Class
+      parameters:
+      - description: User ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Class'
+            type: array
+      summary: Get Status for User
+      tags:
+      - class
   /user-comment:
     get:
       consumes:

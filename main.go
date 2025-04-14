@@ -43,6 +43,13 @@ func main() {
 
 	router.HandleFunc("/comment-create", handler.CreateComment).Methods("POST")
 
+	router.HandleFunc("/create-class", handler.CreateClass).Methods("POST")
+	router.HandleFunc("/get-all-classes", handler.GetAllClasses).Methods("GET")
+	router.HandleFunc("/get-classes", handler.GetClassByID).Methods("GET")
+	router.HandleFunc("/user-classes", handler.GetUserClasses).Methods("GET")
+
+	router.HandleFunc("/create-status", handler.CreateStatus).Methods("POST")
+
 	// Start the server
 	log.Println("Server is running on http://localhost:8080")
 	log.Fatal(http.ListenAndServe(":8080", router))
